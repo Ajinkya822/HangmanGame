@@ -1,9 +1,9 @@
 const express =require('express')
 const app=express()
 
-app.use("/", (req, res) => {
-    res.send("Server is running")
-})
+// app.use("/", (req, res) => {
+//     res.send("Server is running")
+// })
 
 app.get("/api", (req, res) => {
     res.json({"users":["user one", "user ten", "user four"]})
