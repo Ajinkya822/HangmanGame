@@ -1,7 +1,7 @@
 const express =require('express')
 const app=express()
 
-app.use("/status", (req, res) => {
+app.use("/", (req, res) => {
     res.send("Server is running")
 })
 
