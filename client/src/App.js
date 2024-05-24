@@ -1,32 +1,17 @@
 import React, {useEffect, useState} from 'react'
+import {ReactTyped} from "react-typed"
 
 function App() {
-  const [apiData, setApiData]=useState([{}])
   
-  useEffect(()=>{
-    fetch(`${process.env.REACT_APP_API_BASE_URL}/api`).then(
-      
-      response=>response.json()
-    ).then(
-      data=> {
-        setApiData(data)
-      }
-    )
-  },[])
+  
+ 
   return (
     <div>
-      {(typeof apiData.users === 'undefined') ? (
-        <p> Loading datavg ....</p>
-      ) :(
-        apiData.users.map((user, i) => (
-        <p key={i}>{user}</p>
-      ))
-      )
-
-      }
+      <h1>
+        <ReactTyped strings={["Welcome to Hangman"]} typeSpeed={100} loop/>
+      </h1>
     
     </div>
   )
 }
-
 export default App
