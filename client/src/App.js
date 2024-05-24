@@ -2,9 +2,10 @@ import React, {useEffect, useState} from 'react'
 
 function App() {
   const [apiData, setApiData]=useState([{}])
-
+  
   useEffect(()=>{
-    fetch("https://hangman-game-server-beige.vercel.app/api").then(
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/api`).then(
+      
       response=>response.json()
     ).then(
       data=> {
@@ -15,7 +16,7 @@ function App() {
   return (
     <div>
       {(typeof apiData.users === 'undefined') ? (
-        <p> Loading data ....</p>
+        <p> Loading datavg ....</p>
       ) :(
         apiData.users.map((user, i) => (
         <p key={i}>{user}</p>
