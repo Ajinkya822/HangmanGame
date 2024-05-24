@@ -4,7 +4,7 @@ function App() {
   const [apiData, setApiData]=useState([{}])
 
   useEffect(()=>{
-    fetch("/api").then(
+    fetch("https://hangman-game-server-beige.vercel.app/api").then(
       response=>response.json()
     ).then(
       data=> {
