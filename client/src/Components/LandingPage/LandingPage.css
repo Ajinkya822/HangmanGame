@@ -1,0 +1,42 @@
+.landing-page-parent {
+  margin: 0;
+  font-family: "Arial", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(45deg, #f3ec78, #af4261);
+  flex-direction: column;
+}
+
+.landing-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80%;
+}
+
+.option {
+  background: #fff;
+  padding: 20px 40px;
+  margin: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  text-align: center;
+  width: 80%;
+  max-width: 300px;
+}
+
+.option:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .option {
+    width: 90%;
+  }
+}
