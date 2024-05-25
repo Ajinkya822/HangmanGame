@@ -31,16 +31,19 @@ const StartGame = () => {
     const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/state/${gameId}`);
     const game = response.data;
     setGameId(gameId);
-    setWord(game.word);
-    setGuessed(game.guessed);
+    setWord(game.word.toLowerCase());
+    setGuessed(game.guessed.map((letter) => letter.toLowerCase()));
     setAttempts(game.attempts);
   };
 
-  const handleGuess = async () => {
-    if (!letter) return;
-    const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/guess`, { gameId, letter });
+  const handleGuess = async (letter) => {
+    const lowerCaseLetter = letter.toLowerCase();
+    console.log("in handle guess step 2 letter is ", lowerCaseLetter);
+    if (!lowerCaseLetter) return;
+    const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/guess`, { gameId, letter: lowerCaseLetter });
     const game = response.data;
-    setGuessed(game.guessed);
+    console.log("response after guessing step 3 ", game);
+    setGuessed(game.guessed.map((lowerCaseLetter) => lowerCaseLetter.toLowerCase()));
     setAttempts(game.attempts);
     setLetter("");
   };
@@ -48,25 +51,50 @@ const StartGame = () => {
   const renderWord = () => {
     return word
       .split("")
-      .map((char, index) => (guessed.includes(char) ? char : "_"))
+      .map((char, index) => (guessed.includes(char.toLowerCase()) ? char : "_"))
       .join(" ");
   };
 
-  return (
-    <div className="hangman-container">
-      <h1 className="title">Hangman</h1>
-      <div className="word">Word: {renderWord()}</div>
-      <div className="attempts">Attempts left: {attempts}</div>
-      <div className="input-container">
-        <input type="text" value={letter} onChange={(e) => setLetter(e.target.value)} maxLength="1" className="letter-input" />
-        <button onClick={handleGuess} className="guess-button">
-          Guess
-        </button>
-      </div>
-      <button onClick={startNewGame} className="new-game-button">
-        Start New Game
+  const handleButtonClick = (letter) => {
+    console.log("Letter is pressed step 1 ", letter);
+    //setLetter(letter);
+    handleGuess(letter);
+  };
+
+  const clearSession = () => {
+    localStorage.removeItem("gameId");
+    setGameId(null);
+    setWord("");
+    setGuessed([]);
+    setAttempts(6);
+    startNewGame();
+  };
+
+  const renderKeyboard = () => {
+    const keys = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+    return keys.map((key) => (
+      <button key={key} className="key-button" onClick={() => handleButtonClick(key)} disabled={guessed.includes(key.toLowerCase())}>
+        {key}
       </button>
-    </div>
+    ));
+  };
+
+  return (
+    <>
+      <div className="new-game-page-container">
+        <div className="hangman-container">
+          <h1 className="title">Hangman</h1>
+          <div className="word">Word: {renderWord()}</div>
+          <div className="attempts">Attempts left: {attempts}</div>
+
+          <div className="keyboard-container">{renderKeyboard()}</div>
+
+          <button onClick={clearSession} className="new-game-button">
+            Start New Game
+          </button>
+        </div>
+      </div>
+    </>
   );
 };
 
