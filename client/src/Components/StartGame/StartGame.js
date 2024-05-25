@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./StartGame.css";
 
@@ -8,6 +8,8 @@ const StartGame = () => {
   const [guessed, setGuessed] = useState([]);
   const [attempts, setAttempts] = useState(6);
   const [letter, setLetter] = useState("");
+  const correctGuessSound = useRef(null);
+  const inCorrectGuessSound = useRef(null);
 
   useEffect(() => {
     const storedGameId = localStorage.getItem("gameId");
@@ -43,6 +45,15 @@ const StartGame = () => {
     const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/guess`, { gameId, letter: lowerCaseLetter });
     const game = response.data;
     console.log("response after guessing step 3 ", game);
+
+    // Play sound based on whether the guess was correct or not
+
+    if (game.word.indexOf(lowerCaseLetter) > -1) {
+      correctGuessSound.current.play();
+    } else {
+      inCorrectGuessSound.current.play();
+    }
+
     setGuessed(game.guessed.map((lowerCaseLetter) => lowerCaseLetter.toLowerCase()));
     setAttempts(game.attempts);
     setLetter("");
@@ -81,6 +92,8 @@ const StartGame = () => {
 
   return (
     <>
+      <audio ref={correctGuessSound} src="/sounds/correctsound.mp3" />
+      <audio ref={inCorrectGuessSound} src="/sounds/incorrectsound.mp3" />
       <div className="new-game-page-container">
         <div className="hangman-container">
           <h1 className="title">Hangman</h1>
