@@ -1,10 +1,11 @@
 import React from "react";
 import "./Winpopup.css";
-
+import { useNavigate } from "react-router-dom";
 const WinPopup = ({ startNewGame }) => {
   localStorage.removeItem("gameId");
+  const navigate = useNavigate();
   const goToHomepage = () => {
-    window.location.href = "http://localhost:3000/"; // Adjust the URL as needed
+    navigate("/");
   };
 
   return (
@@ -15,7 +16,7 @@ const WinPopup = ({ startNewGame }) => {
           Start New Game
         </button>
         <button onClick={goToHomepage} className="popup-button">
-          Go to Homepage
+          Main Menu
         </button>
       </div>
     </div>

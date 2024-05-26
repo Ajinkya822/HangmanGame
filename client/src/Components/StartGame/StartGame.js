@@ -4,6 +4,7 @@ import "./StartGame.css";
 import HintPopup from "../HintPopup/Hintpopup";
 import LossPopup from "../LostPopup/Lostpopup";
 import WinPopup from "../Winpopup/Winpopup";
+import { useNavigate } from "react-router-dom";
 
 const StartGame = () => {
   const [gameId, setGameId] = useState(null);
@@ -17,6 +18,7 @@ const StartGame = () => {
   const [showHintPopup, setShowHintPopup] = useState(false);
   const [showLossPopup, setShowLossPopup] = useState(false);
   const [showWinPopup, setShowWinPopup] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedGameId = localStorage.getItem("gameId");
@@ -29,7 +31,6 @@ const StartGame = () => {
   }, []);
 
   const startNewGame = async () => {
-    console.log("Starting new game");
     const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/start`);
     const { gameId } = response.data;
     localStorage.setItem("gameId", gameId);
@@ -58,18 +59,18 @@ const StartGame = () => {
         setHint("Sorry, no hint available for the given word in our Dictionary.");
       }
     } catch (error) {
-      console.log("Error is ", error);
+      //console.log("Error is ", error);
       setHint("Sorry, no hint available for the given word in our Dictionary.");
     }
   };
 
   const handleGuess = async (letter) => {
     const lowerCaseLetter = letter.toLowerCase();
-    console.log("in handle guess step 2 letter is ", lowerCaseLetter);
+
     if (!lowerCaseLetter) return;
     const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/guess`, { gameId, letter: lowerCaseLetter });
     const game = response.data;
-    console.log("response after guessing step 3 ", game);
+    console.log("response ", game);
 
     // Play sound based on whether the guess was correct or not
 
@@ -101,8 +102,6 @@ const StartGame = () => {
   };
 
   const handleButtonClick = (letter) => {
-    console.log("Letter is pressed step 1 ", letter);
-    //setLetter(letter);
     handleGuess(letter);
   };
 
@@ -114,6 +113,17 @@ const StartGame = () => {
     setAttempts(6);
     setHint("");
     startNewGame();
+  };
+
+  const goToMainMenu = () => {
+    localStorage.removeItem("gameId");
+    setGameId(null);
+    setWord("");
+    setGuessed([]);
+    setAttempts(6);
+    setHint("");
+    navigate("/");
+    //window.location.href = `${process.env.REACT_APP_CLIENT_HOME_URL}`;
   };
 
   const renderKeyboard = () => {
@@ -138,10 +148,13 @@ const StartGame = () => {
           <div className="keyboard-container">{renderKeyboard()}</div>
 
           <button onClick={clearSession} className="button">
-            Start New Game
+            New Word
           </button>
           <button onClick={() => setShowHintPopup(true)} className="button">
             Show Hint
+          </button>
+          <button onClick={goToMainMenu} className="button">
+            Exit
           </button>
         </div>
       </div>
