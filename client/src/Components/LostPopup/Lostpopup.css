@@ -43,6 +43,25 @@
   background-color: #0056b3;
 }
 
+.sad {
+  width: 50px;
+  height: auto;
+}
+
+.left-sad {
+  position: absolute;
+  top: 50%;
+  left: -60px; /* Adjust as necessary */
+  transform: translateY(-50%);
+}
+
+.right-sad {
+  position: absolute;
+  top: 50%;
+  right: -60px; /* Adjust as necessary */
+  transform: translateY(-50%);
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -74,5 +93,14 @@
     font-size: 1.25rem;
     top: 5px;
     right: 5px;
+  }
+  .left-sad {
+    left: -40px; /* Adjust as necessary */
+    width: 40px;
+  }
+
+  .right-sad {
+    right: -40px; /* Adjust as necessary */
+    width: 40px;
   }
 }
