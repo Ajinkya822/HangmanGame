@@ -96,7 +96,7 @@ const StartGame = () => {
       if (isWordGuessed) {
         setShowWinPopup(true);
         setShowFireworks(true); // Show fireworks
-        setTimeout(() => setShowFireworks(false), 1500); // Hide fireworks after 3 seconds
+        setTimeout(() => setShowFireworks(false), 3000); // Hide fireworks after 3 seconds
       }
     }
   };
@@ -123,12 +123,12 @@ const StartGame = () => {
   };
 
   const goToMainMenu = () => {
-    localStorage.removeItem("gameId");
-    setGameId(null);
-    setWord("");
-    setGuessed([]);
-    setAttempts(6);
-    setHint("");
+    // localStorage.removeItem("gameId");
+    // setGameId(null);
+    // setWord("");
+    // setGuessed([]);
+    // setAttempts(6);
+    // setHint("");
     navigate("/");
     //window.location.href = `${process.env.REACT_APP_CLIENT_HOME_URL}`;
   };
