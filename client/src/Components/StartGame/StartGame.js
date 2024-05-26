@@ -32,7 +32,7 @@ const StartGame = () => {
   }, []);
 
   const startNewGame = async () => {
-    const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/start`);
+    const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/start-new-game`);
     const { gameId } = response.data;
     localStorage.setItem("gameId", gameId);
     fetchGameState(gameId);
@@ -42,7 +42,7 @@ const StartGame = () => {
   };
 
   const fetchGameState = async (gameId) => {
-    const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/state/${gameId}`);
+    const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/game-state/${gameId}`);
     const game = response.data;
     setGameId(gameId);
     setWord(game.word.toLowerCase());
@@ -70,7 +70,7 @@ const StartGame = () => {
     const lowerCaseLetter = letter.toLowerCase();
 
     if (!lowerCaseLetter) return;
-    const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/guess`, { gameId, letter: lowerCaseLetter });
+    const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/guess-letter`, { gameId, letter: lowerCaseLetter });
     const game = response.data;
     console.log("response ", game);
 
@@ -123,12 +123,12 @@ const StartGame = () => {
   };
 
   const goToMainMenu = () => {
-    // localStorage.removeItem("gameId");
-    // setGameId(null);
-    // setWord("");
-    // setGuessed([]);
-    // setAttempts(6);
-    // setHint("");
+    localStorage.removeItem("gameId");
+    setGameId(null);
+    setWord("");
+    setGuessed([]);
+    setAttempts(6);
+    setHint("");
     navigate("/");
     //window.location.href = `${process.env.REACT_APP_CLIENT_HOME_URL}`;
   };
@@ -167,7 +167,7 @@ const StartGame = () => {
             Show Hint
           </button>
           <button onClick={goToMainMenu} className="button">
-            Exit
+            Exit Game
           </button>
         </div>
       </div>
