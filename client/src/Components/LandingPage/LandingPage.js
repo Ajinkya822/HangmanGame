@@ -7,6 +7,12 @@ import { ReactTyped } from "react-typed";
 const LandingPage = () => {
   const navigate = useNavigate();
   const [popupContent, setPopupContent] = useState(null);
+  const [isResumeGameEnabled, setIsResumeGameEnabled] = useState(false);
+
+  useEffect(() => {
+    const storedGameId = localStorage.getItem("gameId");
+    setIsResumeGameEnabled(!!storedGameId); // Enable button if gameId exists
+  }, []);
 
   const handleNavigation = (path) => {
     navigate(path);
@@ -32,7 +38,7 @@ const LandingPage = () => {
           <div className="option" onClick={() => handleNavigation("/start-game")}>
             Start Game
           </div>
-          <div className="option" onClick={() => handleNavigation("/start-game")}>
+          <div className={`option ${!isResumeGameEnabled ? "disabled" : ""}`} onClick={() => isResumeGameEnabled && handleNavigation("/start-game")}>
             Resume Game
           </div>
           <div className="option" onClick={() => showPopup("Information About the Game")}>
