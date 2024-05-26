@@ -135,6 +135,11 @@ const StartGame = () => {
     ));
   };
 
+  const renderHangmanImage = () => {
+    const imageUrl = `/images/hangman-${6 - attempts}.svg`;
+    return <img src={imageUrl} alt={`Hangman stage ${6 - attempts}`} className="hangman-image" />;
+  };
+
   return (
     <>
       <audio ref={correctGuessSound} src="/sounds/correctsound.mp3" />
@@ -142,6 +147,7 @@ const StartGame = () => {
       <div className="new-game-page-container">
         <div className="hangman-container">
           <h1 className="title">Hangman</h1>
+          {renderHangmanImage()}
           <div className="word">Word: {renderWord()}</div>
           <div className="attempts">Attempts left: {attempts}</div>
 

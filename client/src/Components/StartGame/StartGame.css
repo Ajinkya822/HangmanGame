@@ -84,6 +84,12 @@
   transform: scale(1.05);
 }
 
+.hangman-image {
+  width: 150px; /* Adjust as necessary */
+  height: auto;
+  margin-bottom: 20px;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
