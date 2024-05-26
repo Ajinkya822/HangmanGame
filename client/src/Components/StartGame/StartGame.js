@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./StartGame.css";
 import HintPopup from "../HintPopup/Hintpopup";
+import LossPopup from "../LostPopup/Lostpopup";
+import WinPopup from "../Winpopup/Winpopup";
 
 const StartGame = () => {
   const [gameId, setGameId] = useState(null);
@@ -13,6 +15,8 @@ const StartGame = () => {
   const inCorrectGuessSound = useRef(null);
   const [hint, setHint] = useState(""); // State for the hint
   const [showHintPopup, setShowHintPopup] = useState(false);
+  const [showLossPopup, setShowLossPopup] = useState(false);
+  const [showWinPopup, setShowWinPopup] = useState(false);
 
   useEffect(() => {
     const storedGameId = localStorage.getItem("gameId");
@@ -30,6 +34,8 @@ const StartGame = () => {
     const { gameId } = response.data;
     localStorage.setItem("gameId", gameId);
     fetchGameState(gameId);
+    setShowLossPopup(false);
+    setShowWinPopup(false);
   };
 
   const fetchGameState = async (gameId) => {
@@ -39,7 +45,7 @@ const StartGame = () => {
     setWord(game.word.toLowerCase());
     setGuessed(game.guessed.map((letter) => letter.toLowerCase()));
     setAttempts(game.attempts);
-    fetchHint(game.word); // Fetch the hint for the word
+    fetchHint(game.word);
   };
 
   const fetchHint = async (word) => {
@@ -49,11 +55,11 @@ const StartGame = () => {
         const hint = response.data[0].meanings[0].definitions[0].definition;
         setHint(hint);
       } else {
-        setHint("Sorry, no hint available for the given word.");
+        setHint("Sorry, no hint available for the given word in our Dictionary.");
       }
     } catch (error) {
       console.log("Error is ", error);
-      setHint("No hint available.");
+      setHint("Sorry, no hint available for the given word in our Dictionary.");
     }
   };
 
@@ -76,6 +82,15 @@ const StartGame = () => {
     setGuessed(game.guessed.map((lowerCaseLetter) => lowerCaseLetter.toLowerCase()));
     setAttempts(game.attempts);
     setLetter("");
+
+    if (game.attempts === 0) {
+      setShowLossPopup(true);
+    }
+    // Check if the word is completely guessed
+    const isWordGuessed = game.word.split("").every((char) => game.guessed.includes(char));
+    if (isWordGuessed) {
+      setShowWinPopup(true);
+    }
   };
 
   const renderWord = () => {
@@ -131,6 +146,8 @@ const StartGame = () => {
         </div>
       </div>
       {showHintPopup && <HintPopup hint={hint} closePopup={() => setShowHintPopup(false)} />}
+      {showLossPopup && <LossPopup word={word} startNewGame={clearSession} />}
+      {showWinPopup && <WinPopup startNewGame={clearSession} />}
     </>
   );
 };
