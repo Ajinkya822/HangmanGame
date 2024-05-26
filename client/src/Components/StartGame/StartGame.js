@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./StartGame.css";
+import HintPopup from "../HintPopup/Hintpopup";
 
 const StartGame = () => {
   const [gameId, setGameId] = useState(null);
@@ -10,6 +11,8 @@ const StartGame = () => {
   const [letter, setLetter] = useState("");
   const correctGuessSound = useRef(null);
   const inCorrectGuessSound = useRef(null);
+  const [hint, setHint] = useState(""); // State for the hint
+  const [showHintPopup, setShowHintPopup] = useState(false);
 
   useEffect(() => {
     const storedGameId = localStorage.getItem("gameId");
@@ -36,6 +39,22 @@ const StartGame = () => {
     setWord(game.word.toLowerCase());
     setGuessed(game.guessed.map((letter) => letter.toLowerCase()));
     setAttempts(game.attempts);
+    fetchHint(game.word); // Fetch the hint for the word
+  };
+
+  const fetchHint = async (word) => {
+    try {
+      const response = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+      if (response.data && response.data[0] && response.data[0].meanings && response.data[0].meanings[0]) {
+        const hint = response.data[0].meanings[0].definitions[0].definition;
+        setHint(hint);
+      } else {
+        setHint("Sorry, no hint available for the given word.");
+      }
+    } catch (error) {
+      console.log("Error is ", error);
+      setHint("No hint available.");
+    }
   };
 
   const handleGuess = async (letter) => {
@@ -78,6 +97,7 @@ const StartGame = () => {
     setWord("");
     setGuessed([]);
     setAttempts(6);
+    setHint("");
     startNewGame();
   };
 
@@ -102,11 +122,15 @@ const StartGame = () => {
 
           <div className="keyboard-container">{renderKeyboard()}</div>
 
-          <button onClick={clearSession} className="new-game-button">
+          <button onClick={clearSession} className="button">
             Start New Game
+          </button>
+          <button onClick={() => setShowHintPopup(true)} className="button">
+            Show Hint
           </button>
         </div>
       </div>
+      {showHintPopup && <HintPopup hint={hint} closePopup={() => setShowHintPopup(false)} />}
     </>
   );
 };
