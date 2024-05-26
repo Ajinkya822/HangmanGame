@@ -18,7 +18,7 @@ const StartGame = () => {
   const [showHintPopup, setShowHintPopup] = useState(false);
   const [showLossPopup, setShowLossPopup] = useState(false);
   const [showWinPopup, setShowWinPopup] = useState(false);
-  const [showFireworks, setShowFireworks] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -95,8 +95,6 @@ const StartGame = () => {
       setShowWinPopup(true);
       if (isWordGuessed) {
         setShowWinPopup(true);
-        setShowFireworks(true); // Show fireworks
-        setTimeout(() => setShowFireworks(false), 3000); // Hide fireworks after 3 seconds
       }
     }
   };
@@ -174,11 +172,6 @@ const StartGame = () => {
       {showHintPopup && <HintPopup hint={hint} closePopup={() => setShowHintPopup(false)} />}
       {showLossPopup && <LossPopup word={word} startNewGame={clearSession} />}
       {showWinPopup && <WinPopup startNewGame={clearSession} />}
-      {showFireworks && (
-        <div className="fireworks-container">
-          <img src="/images/winimage.gif" alt="Fireworks" className="fireworks" />
-        </div>
-      )}
     </>
   );
 };
