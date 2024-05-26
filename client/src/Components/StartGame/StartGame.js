@@ -18,6 +18,7 @@ const StartGame = () => {
   const [showHintPopup, setShowHintPopup] = useState(false);
   const [showLossPopup, setShowLossPopup] = useState(false);
   const [showWinPopup, setShowWinPopup] = useState(false);
+  const [showFireworks, setShowFireworks] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,6 +38,7 @@ const StartGame = () => {
     fetchGameState(gameId);
     setShowLossPopup(false);
     setShowWinPopup(false);
+    setShowFireworks(false);
   };
 
   const fetchGameState = async (gameId) => {
@@ -91,6 +93,11 @@ const StartGame = () => {
     const isWordGuessed = game.word.split("").every((char) => game.guessed.includes(char));
     if (isWordGuessed) {
       setShowWinPopup(true);
+      if (isWordGuessed) {
+        setShowWinPopup(true);
+        setShowFireworks(true); // Show fireworks
+        setTimeout(() => setShowFireworks(false), 1500); // Hide fireworks after 3 seconds
+      }
     }
   };
 
@@ -167,6 +174,11 @@ const StartGame = () => {
       {showHintPopup && <HintPopup hint={hint} closePopup={() => setShowHintPopup(false)} />}
       {showLossPopup && <LossPopup word={word} startNewGame={clearSession} />}
       {showWinPopup && <WinPopup startNewGame={clearSession} />}
+      {showFireworks && (
+        <div className="fireworks-container">
+          <img src="/images/winimage.gif" alt="Fireworks" className="fireworks" />
+        </div>
+      )}
     </>
   );
 };
