@@ -10,17 +10,18 @@ app.use(express.json());
 //     res.json({"users":["user one", "user ten", "user four"]})
 // })
 
-let games = {};
+let gameCurrentState = {}; //Save information related to game state
+let randomWordGenerateApi = "https://random-word-api.herokuapp.com/word?number=1";
 
 const getRandomWord = async () => {
-  const response = await axios.get("https://random-word-api.herokuapp.com/word?number=1");
+  const response = await axios.get(randomWordGenerateApi);
   return response.data[0];
 };
 
-app.post("/start", async (req, res) => {
+app.post("/start-new-game", async (req, res) => {
   const gameId = Math.random().toString(36).substring(2, 15);
   const word = await getRandomWord();
-  games[gameId] = {
+  gameCurrentState[gameId] = {
     word,
     guessed: [],
     attempts: 6,
@@ -28,9 +29,9 @@ app.post("/start", async (req, res) => {
   res.json({ gameId });
 });
 
-app.post("/guess", (req, res) => {
+app.post("/guess-letter", (req, res) => {
   const { gameId, letter } = req.body;
-  const game = games[gameId];
+  const game = gameCurrentState[gameId];
 
   if (!game) {
     return res.status(404).json({ message: "Game not found" });
@@ -48,9 +49,9 @@ app.post("/guess", (req, res) => {
   res.json(game);
 });
 
-app.get("/state/:gameId", (req, res) => {
+app.get("/game-state/:gameId", (req, res) => {
   const { gameId } = req.params;
-  const game = games[gameId];
+  const game = gameCurrentState[gameId];
 
   if (!game) {
     return res.status(404).json({ message: "Game not found" });
