@@ -1,10 +1,12 @@
 import React from "react";
 import "./Lostpopup.css";
+import { useNavigate } from "react-router-dom";
 
 const LossPopup = ({ word, startNewGame }) => {
   localStorage.removeItem("gameId");
+  const navigate = useNavigate();
   const goToHomepage = () => {
-    window.location.href = "http://localhost:3000/"; // Adjust the URL as needed
+    navigate("/");
   };
 
   return (
@@ -16,7 +18,7 @@ const LossPopup = ({ word, startNewGame }) => {
           Start New Game
         </button>
         <button onClick={goToHomepage} className="popup-button">
-          Go to Homepage
+          Main Menu
         </button>
       </div>
     </div>
