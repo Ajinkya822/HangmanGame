@@ -49,7 +49,7 @@ const StartGame = () => {
         const hint = response.data[0].meanings[0].definitions[0].definition;
         setHint(hint);
       } else {
-        setHint("No hint available.");
+        setHint("Sorry, no hint available for the given word.");
       }
     } catch (error) {
       console.log("Error is ", error);
