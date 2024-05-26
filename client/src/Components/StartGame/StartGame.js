@@ -38,7 +38,6 @@ const StartGame = () => {
     fetchGameState(gameId);
     setShowLossPopup(false);
     setShowWinPopup(false);
-    setShowFireworks(false);
   };
 
   const fetchGameState = async (gameId) => {
