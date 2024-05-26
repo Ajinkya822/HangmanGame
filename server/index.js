@@ -5,11 +5,13 @@ app.use(cors());
 const axios = require("axios");
 app.use(express.json());
 
+//api for testing
 // app.get("/api", (req, res) => {
 //     res.json({"users":["user one", "user ten", "user four"]})
 // })
 
 let games = {};
+
 const getRandomWord = async () => {
   const response = await axios.get("https://random-word-api.herokuapp.com/word?number=1");
   return response.data[0];
