@@ -43,23 +43,17 @@
   background-color: #0056b3;
 }
 
-.sad {
+.emoji-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.sad-emoji {
   width: 50px;
   height: auto;
-}
-
-.left-sad {
-  position: absolute;
-  top: 50%;
-  left: -60px; /* Adjust as necessary */
-  transform: translateY(-50%);
-}
-
-.right-sad {
-  position: absolute;
-  top: 50%;
-  right: -60px; /* Adjust as necessary */
-  transform: translateY(-50%);
+  margin: 0 10px;
 }
 
 @keyframes fadeIn {
@@ -94,13 +88,7 @@
     top: 5px;
     right: 5px;
   }
-  .left-sad {
-    left: -40px; /* Adjust as necessary */
-    width: 40px;
-  }
-
-  .right-sad {
-    right: -40px; /* Adjust as necessary */
+  .sad-emoji {
     width: 40px;
   }
 }

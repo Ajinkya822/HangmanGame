@@ -12,9 +12,12 @@ const WinPopup = ({ startNewGame }) => {
   return (
     <div className="popup-container">
       <div className="popup-content">
-        <img src="/images/trophy.png" alt="Trophy" className="trophy left-trophy" />
-        <h2>You Won! Yay!</h2>
-        <img src="/images/trophy.png" alt="Trophy" className="trophy right-trophy" />
+        <div className="emoji-container">
+          <img src="/images/trophy.png" alt="Trophy" className="trophy-emoji" />
+          <h2>You Won! Yay!</h2>
+          <img src="/images/trophy.png" alt="Trophy" className="trophy-emoji" />
+        </div>
+
         <button onClick={startNewGame} className="popup-button">
           Start New Game
         </button>

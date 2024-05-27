@@ -10,7 +10,7 @@ const LandingPage = () => {
   const [isResumeGameEnabled, setIsResumeGameEnabled] = useState(false);
 
   useEffect(() => {
-    const storedGameId = localStorage.getItem("gameId");
+    const storedGameId = localStorage.getItem("gameId"); //fetch game id
     setIsResumeGameEnabled(!!storedGameId); // Enable button if gameId exists
   }, []);
 

@@ -7,6 +7,7 @@ import WinPopup from "../Winpopup/Winpopup";
 import { useNavigate } from "react-router-dom";
 
 const StartGame = () => {
+  //all hooks to store the state related information
   const [gameId, setGameId] = useState(null);
   const [word, setWord] = useState("");
   const [guessed, setGuessed] = useState([]);
@@ -14,7 +15,7 @@ const StartGame = () => {
   const [letter, setLetter] = useState("");
   const correctGuessSound = useRef(null);
   const inCorrectGuessSound = useRef(null);
-  const [hint, setHint] = useState(""); // State for the hint
+  const [hint, setHint] = useState("");
   const [showHintPopup, setShowHintPopup] = useState(false);
   const [showLossPopup, setShowLossPopup] = useState(false);
   const [showWinPopup, setShowWinPopup] = useState(false);
@@ -22,8 +23,9 @@ const StartGame = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedGameId = localStorage.getItem("gameId");
-    console.log("Fetching existing session id ", storedGameId);
+    const storedGameId = localStorage.getItem("gameId"); //retrieve game id if exists
+
+    //if game id exist in local storage resume the game by fetching the state
     if (storedGameId) {
       fetchGameState(storedGameId);
     } else {
@@ -31,6 +33,7 @@ const StartGame = () => {
     }
   }, []);
 
+  // start new game
   const startNewGame = async () => {
     const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/start-new-game`);
     const { gameId } = response.data;
@@ -40,6 +43,7 @@ const StartGame = () => {
     setShowWinPopup(false);
   };
 
+  //fetch saved state and resume the game
   const fetchGameState = async (gameId) => {
     const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/game-state/${gameId}`);
     const game = response.data;
@@ -50,6 +54,7 @@ const StartGame = () => {
     fetchHint(game.word);
   };
 
+  //fetch hint for the word
   const fetchHint = async (word) => {
     try {
       const response = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
@@ -65,8 +70,9 @@ const StartGame = () => {
     }
   };
 
+  //method to handle the word guessed by the user
   const handleGuess = async (letter) => {
-    const lowerCaseLetter = letter.toLowerCase();
+    const lowerCaseLetter = letter.toLowerCase(); //for simplicity everything is converted to lowercase letters
 
     if (!lowerCaseLetter) return;
     const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/guess-letter`, { gameId, letter: lowerCaseLetter });
@@ -98,6 +104,7 @@ const StartGame = () => {
     }
   };
 
+  //render the word based on input letters
   const renderWord = () => {
     return word
       .split("")
@@ -109,6 +116,7 @@ const StartGame = () => {
     handleGuess(letter);
   };
 
+  //clear session, initilize all states
   const clearSession = () => {
     localStorage.removeItem("gameId");
     setGameId(null);
@@ -127,9 +135,9 @@ const StartGame = () => {
     setAttempts(6);
     setHint("");
     navigate("/");
-    //window.location.href = `${process.env.REACT_APP_CLIENT_HOME_URL}`;
   };
 
+  // render on screen keyboard
   const renderKeyboard = () => {
     const keys = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
     return keys.map((key) => (
@@ -139,6 +147,7 @@ const StartGame = () => {
     ));
   };
 
+  //display hangman image based on the incorrect attempts
   const renderHangmanImage = () => {
     const imageUrl = `/images/hangman-${6 - attempts}.svg`;
     return <img src={imageUrl} alt={`Hangman stage ${6 - attempts}`} className="hangman-image" />;

@@ -43,23 +43,17 @@
   background-color: #0056b3;
 }
 
-.trophy {
+.emoji-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.trophy-emoji {
   width: 50px;
   height: auto;
-}
-
-.left-trophy {
-  position: absolute;
-  top: 50%;
-  left: -60px; /* Adjust as necessary */
-  transform: translateY(-50%);
-}
-
-.right-trophy {
-  position: absolute;
-  top: 50%;
-  right: -60px; /* Adjust as necessary */
-  transform: translateY(-50%);
+  margin: 0 10px;
 }
 
 @keyframes fadeIn {
@@ -94,13 +88,7 @@
     top: 5px;
     right: 5px;
   }
-  .left-trophy {
-    left: -40px; /* Adjust as necessary */
-    width: 40px;
-  }
-
-  .right-trophy {
-    right: -40px; /* Adjust as necessary */
+  .trophy-emoji {
     width: 40px;
   }
 }
