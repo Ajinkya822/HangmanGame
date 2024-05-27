@@ -156,7 +156,7 @@ const StartGame = () => {
   return (
     <>
       <audio ref={correctGuessSound} src="/sounds/correctsound.mp3" />
-      <audio ref={inCorrectGuessSound} src="/sounds/incorrectsound.mp3" />
+      <audio ref={inCorrectGuessSound} src="/sounds/errorsound.mp3" />
       <div className="new-game-page-container">
         <div className="hangman-container">
           <h1 className="title">Hangman</h1>
