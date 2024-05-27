@@ -16,8 +16,8 @@
   padding: 20px;
   border-radius: 10px;
   position: relative;
-  width: 400px; /* Set a fixed width for the popup */
-  max-width: 90%; /* Ensure it doesn't exceed the screen width */
+  width: 400px;
+  max-width: 90%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   animation: slideIn 0.3s;
 }

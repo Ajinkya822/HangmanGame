@@ -12,7 +12,12 @@ const LossPopup = ({ word, startNewGame }) => {
   return (
     <div className="popup-container">
       <div className="popup-content">
-        <h2>You Lost</h2>
+        <div className="emoji-container">
+          <img src="/images/sad.png" alt="Sad Emoji" className="sad-emoji" />
+          <h2>You Lost</h2>
+          <img src="/images/sad.png" alt="Sad Emoji" className="sad-emoji" />
+        </div>
+
         <p>The word was: {word}</p>
         <button onClick={startNewGame} className="popup-button">
           Start New Game
