@@ -25,6 +25,7 @@
 li {
   margin-bottom: 1.5rem;
   font-size: 18px;
+  list-style-type: disclosure-closed;
 }
 
 .close {
