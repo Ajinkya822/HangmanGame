@@ -77,7 +77,7 @@ const StartGame = () => {
     if (!lowerCaseLetter) return;
     const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/guess-letter`, { gameId, letter: lowerCaseLetter });
     const game = response.data;
-    console.log("response ", game);
+    //console.log("response ", game);
 
     // Play sound based on whether the guess was correct or not
 
